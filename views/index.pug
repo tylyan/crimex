@@ -1,6 +1,16 @@
 extends layout
 
 block content
-  form(action='result' method='post')
-    input(type='text' placeholder='State' name='state')
-    input(type='submit' value='Submit')
+    h3 States
+    select#states(multiple='multiple')
+      each state, i in states
+        option(value=state.abbreviation) #{state.abbreviation}
+    h3 Crimes
+    select#crimes(multiple='multiple')
+      each crime, i in crimes
+        option(value=crime.name) #{crime.name}
+    h3 Ethnicity
+    select#ethnicities(multiple='multiple')
+      each ethnicity, i in ethnicities
+        option(value=ethnicity.name) #{ethnicity.name}
+    input#submitQuery(type='submit' value='Submit')
