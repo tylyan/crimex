@@ -1,4 +1,13 @@
 extends layout
 
 block content
-  h1= title
+  h2 Database Results
+  table 
+    tr
+    each attribute in header
+      th= attribute
+    each tuple in data
+      tr
+        td= tuple.State
+        td= tuple.Crime
+        td= tuple.Number

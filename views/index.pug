@@ -4,7 +4,7 @@ block content
     h3 States
     select#states(multiple='multiple')
       each state, i in states
-        option(value=state.abbreviation) #{state.abbreviation}
+        option(value=state.name) #{state.name}
     h3 Crimes
     select#crimes(multiple='multiple')
       each crime, i in crimes

@@ -1,6 +1,6 @@
 var states = [
     {
-        "name": "All",
+        "name": "all",
         "abbreviation": "all"
     },
     {
@@ -211,10 +211,16 @@ var states = [
 
 var crimes = [
     { "name" : "all" },
-    { "name" : "murder" },
-    { "name" : "rape" },
-    { "name" : "robbery" },
-    { "name" : "arson" }
+    { "name" : "Assault" },
+    { "name" : "Burglary" },
+    { "name" : "Larceny" },
+    { "name" : "Murder" },
+    { "name" : "Property" },
+    { "name" : "Rape1" },
+    { "name" : "Rape2" },
+    { "name" : "Robbery" },
+    { "name" : "Vehicle Theft" },
+    { "name" : "Violent Crime" }
 ]
 
 var ethnicities = [
