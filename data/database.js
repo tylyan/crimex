@@ -3,20 +3,20 @@ var mysql = require('mysql');
 /** DON'T TOUCH THESE **/
 
 var connection = mysql.createConnection({
-  host: process.env.DB_HOSTNAME,
-  user: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
+  host: 'cs336.clmcqand9hbn.us-west-2.rds.amazonaws.com',
+  user: 'cmd363',
+  password: 'OITStrong',
+  port: 3306,
   database: 'crimes'
 });
 
 var pool = mysql.createPool({
-  host: process.env.DB_HOSTNAME,
-  user: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
-  connectionLimit: 10,
-  database: 'crimes'
+  host: 'cs336.clmcqand9hbn.us-west-2.rds.amazonaws.com',
+  user: 'cmd363',
+  password: 'OITStrong',
+  port: 3306,
+  database: 'crimes',
+  connectionLimit: 10
 });
 
 /** TEST FUNCTION TO MAKE SURE DATABASE IS WORKING **/

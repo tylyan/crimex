@@ -1,2 +1,4 @@
 node_modules
+deploy_aws-eb
 .env
+pack.sh

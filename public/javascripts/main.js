@@ -5,6 +5,7 @@ function init() {
   $('#states').val('all');
   $('#crimes').val('all');
   $('#ethnicities').val('all');
+  $('#resultTable').tablesorter();
 }
 
 function post(path, parameters) {

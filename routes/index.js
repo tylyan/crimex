@@ -27,6 +27,7 @@ router.post('/result', function(req, res, next) {
       console.log("No results");
       res.render('error', {message: 'There were no results returned'});
     } else {
+      console.log(results);
       headers = Object.keys(results[0]);
       res.render('result', {header: headers, data: results});
     }

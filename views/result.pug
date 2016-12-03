@@ -2,12 +2,13 @@ extends layout
 
 block content
   h2 Database Results
-  table 
-    tr
-    each attribute in header
-      th= attribute
-    each tuple in data
+  table#resultTable.tablesorter
+    thead
       tr
-        td= tuple.State
-        td= tuple.Crime
-        td= tuple.Number
+        each attribute in header
+          th= attribute
+    tbody
+      each tuple in data
+        tr
+          each value in tuple
+            td= value
