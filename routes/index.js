@@ -11,10 +11,10 @@ router.get('/', function(req, res, next) {
 });
 
 /* POST result page. */
-router.post('/result', function(req, res, next) { 
+router.post('/result', function(req, res, next) {
   console.log(req.body);
   var stateFilter = {'attribute': 'State', 'values': req.body['states[]']};
-  var crimeFilter = {'attribute': 'Crime', 'values': req.body['crimes[]']};
+  var crimeFilter = {'attribute': 'Category', 'values': req.body['crimes[]']};
   db.getStateCrimeData(stateFilter, crimeFilter, function(err, results) {
     if (err) {
       console.log('error in get');
@@ -35,6 +35,9 @@ router.post('/result', function(req, res, next) {
   //res.render('result', { title: req.body.state });
 });
 
+router.get('/about', function(req, res, next) {
+  res.render('about');
+})
 
 router.get('/db', function(req, res, next) {
   db.getAllFromTable('state_crimes', function(err, results) {
@@ -58,7 +61,7 @@ router.get('/db', function(req, res, next) {
 /* GET db test page. */
 router.get('/dbtest', function(req, res, next) {
   db.test(function(status) {
-    res.render('result', {title: status.message});
+    res.render('status', {title: status.message});
   })
 })
 

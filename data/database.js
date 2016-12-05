@@ -1,23 +1,24 @@
 var mysql = require('mysql');
 
 /** DON'T TOUCH THESE **/
-
-var connection = mysql.createConnection({
-  host: 'cs336.clmcqand9hbn.us-west-2.rds.amazonaws.com',
-  user: 'cmd363',
-  password: 'OITStrong',
-  port: 3306,
-  database: 'crimes'
-});
-
-var pool = mysql.createPool({
+/*var pool = mysql.createPool({
   host: 'cs336.clmcqand9hbn.us-west-2.rds.amazonaws.com',
   user: 'cmd363',
   password: 'OITStrong',
   port: 3306,
   database: 'crimes',
   connectionLimit: 10
+});*/
+
+var pool = mysql.createPool({
+  host: 'cs336.cdiold5hpnen.us-east-1.rds.amazonaws.com',
+  user: 'root',
+  password: 'OITStrong',
+  port: 3306,
+  database: 'Crimex_DB',
+  connectionLimit: 10
 });
+
 
 /** TEST FUNCTION TO MAKE SURE DATABASE IS WORKING **/
 
@@ -41,7 +42,7 @@ exports.test = function(callback) {
 exports.getStateData = function(states, callback) {
   var stateQuery = buildQueryString(states, 'OR');
   console.log(stateQuery);
-  var sql = 'SELECT * FROM state_crimes WHERE ' + stateQuery;
+  var sql = 'SELECT * FROM State_crimes WHERE ' + stateQuery;
 
   runQuery(sql, callback);
 }
@@ -49,9 +50,10 @@ exports.getStateData = function(states, callback) {
 exports.getStateCrimeData = function(states, crimes, callback) {
   var stateQuery = buildQueryString(states, 'OR');
   var crimeQuery = buildQueryString(crimes, 'OR');
-  
-  var sql = 'SELECT * FROM state_crimes WHERE ' + stateQuery + ' AND ' + crimeQuery;
-  console.log(sql);
+  var totalCrimeQuery = '(SELECT State AS TotState, SUM(Quantity) AS "T" FROM State_crimes GROUP BY State) Total';
+  var sql = 'SELECT State, Category, Quantity, Total.T AS "Total Crime Committed", ROUND(Quantity/Total.T*100, 2) AS "% of Total" FROM State_crimes, ' + totalCrimeQuery + ' WHERE TotState=State AND ' + stateQuery + ' AND ' + crimeQuery;
+  //var sql = 'SELECT * FROM state_crimes WHERE ' + stateQuery + ' AND ' + crimeQuery;
+
   runQuery(sql, callback);
 }
 
@@ -67,6 +69,7 @@ exports.getAllFromTable = function(table, callback) {
 * Runs the given sql query against the database.
 */
 function runQuery(sql, callback) {
+  console.log(sql);
   pool.getConnection(function(err, connection) {
     if (err) {
       console.log(err);

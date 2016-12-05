@@ -1,16 +1,27 @@
 extends layout
 
 block content
-    h3 States
-    select#states(multiple='multiple')
-      each state, i in states
-        option(value=state.name) #{state.name}
-    h3 Crimes
-    select#crimes(multiple='multiple')
-      each crime, i in crimes
-        option(value=crime.name) #{crime.name}
-    h3 Ethnicity
-    select#ethnicities(multiple='multiple')
-      each ethnicity, i in ethnicities
-        option(value=ethnicity.name) #{ethnicity.name}
+    .row
+        .col-lg-4
+            h3 Select States
+            select#states.selectpicker(multiple='multiple')
+              each state, i in states
+                option(value=state.name) #{state.name}
+        .col-lg-4
+            h3 Filter by Crimes
+            select#crimes.selectpicker(multiple='multiple')
+              each crime, i in crimes
+                option(value=crime.name) #{crime.name}
+        .col-lg-4
+            h3 Filter by Ethnicity
+            select#ethnicities.selectpicker(multiple='multiple')
+              each ethnicity, i in ethnicities
+                option(value=ethnicity.name) #{ethnicity.name}
+    h3 Filter by Population
+    input(name='population' type='radio' value='lessThan') 
+    | Less than
+    input(name='population' type='radio' value='greaterThan') 
+    | Greater than
+    input#popAmount(type='text' placeholder='Population')
     input#submitQuery(type='submit' value='Submit')
+

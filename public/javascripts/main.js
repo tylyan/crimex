@@ -6,6 +6,21 @@ function init() {
   $('#crimes').val('all');
   $('#ethnicities').val('all');
   $('#resultTable').tablesorter();
+  $('table').each(function () {
+        var $table = $(this);
+
+        var $button = $("<button type='button'>");
+        $button.text("Export to CSV");
+        $button.insertAfter($table);
+
+        $button.click(function () {
+            var csv = $table.table2CSV({
+                delivery: 'value'
+            });
+            window.location.href = 'data:text/csv;charset=UTF-8,' 
+            + encodeURIComponent(csv);
+        });
+    });
 }
 
 function post(path, parameters) {
