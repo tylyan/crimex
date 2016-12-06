@@ -2,13 +2,14 @@ extends layout
 
 block content
   h2 Database Results
-  table#resultTable.tablesorter
-    thead
-      tr
-        each attribute in header
-          th= attribute
-    tbody
-      each tuple in data
+  .scroll
+    table#resultTable.tablesorter
+      thead
         tr
-          each value in tuple
-            td= value
+          each attribute in header
+            th= attribute
+      tbody
+        each tuple in data
+          tr
+            each value in tuple
+              td= value

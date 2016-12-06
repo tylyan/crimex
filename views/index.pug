@@ -3,25 +3,84 @@ extends layout
 block content
     .row
         .col-lg-4
-            h3 Select States
-            select#states.selectpicker(multiple='multiple')
-              each state, i in states
-                option(value=state.name) #{state.name}
+            .form-group
+                h3 Select States
+                select#states.selectpicker.form-control(multiple='multiple')
+                  each state, i in states
+                    option(value=state.name) #{state.name}
         .col-lg-4
-            h3 Filter by Crimes
-            select#crimes.selectpicker(multiple='multiple')
-              each crime, i in crimes
-                option(value=crime.name) #{crime.name}
+            .form-group
+                h3 Select Crimes
+                select#crimes.selectpicker.form-control(multiple='multiple')
+                  each crime, i in crimes
+                    option(value=crime.name) #{crime.name}
         .col-lg-4
-            h3 Filter by Ethnicity
-            select#ethnicities.selectpicker(multiple='multiple')
-              each ethnicity, i in ethnicities
-                option(value=ethnicity.name) #{ethnicity.name}
-    h3 Filter by Population
-    input(name='population' type='radio' value='lessThan') 
-    | Less than
-    input(name='population' type='radio' value='greaterThan') 
-    | Greater than
-    input#popAmount(type='text' placeholder='Population')
-    input#submitQuery(type='submit' value='Submit')
+            .form-group
+                h3 Select Ethnicity
+                select#ethnicities.selectpicker.form-control(multiple='multiple')
+                  each ethnicity, i in ethnicities
+                    option(value=ethnicity.name) #{ethnicity.name}
+    .row.top50
+        .col-lg-4
+            fieldset.form-group
+                legend Filter by Population
+                .form-check
+                    label.form-check-label.pop
+                        input.form-check-input(name='population' type='radio' value='lessThan')
+                        | Less than
+                .form-check
+                    label.form-check-label.pop
+                        input.form-check-input(name='population' type='radio' value='greaterThan') 
+                        | Greater than
+                .form-check
+                    label.form-check-label.pop
+                        input.form-check-input(name='population' type='radio' value='none' checked) 
+                        | None
+                input#popAmount.form-control(type='text' placeholder='Population')
+        .col-lg-4
+            fieldset.form-group
+                legend Filter by Total Crime
+                .form-check
+                    label.form-check-label.totCrime
+                        input.form-check-input(name='totalCrime' type='radio' value='lessThan')
+                        | Less than
+                .form-check
+                    label.form-check-label.totCrime
+                        input.form-check-input(name='totalCrime' type='radio' value='greaterThan') 
+                        | Greater than
+                .form-check
+                    label.form-check-label.totCrime
+                        input.form-check-input(name='totalCrime' type='radio' value='none' checked) 
+                        | None
+                input#crimeAmount.form-control(type='text' placeholder='Total Crime')
+        .col-lg-4
+            fieldset.form-group
+                legend Filter by Police Employment
+                .form-check
+                    label.form-check-label.police
+                        input.form-check-input(name='policeEmployment' type='radio' value='lessThan')
+                        | Less than
+                .form-check
+                    label.form-check-label.police
+                        input.form-check-input(name='policeEmployment' type='radio' value='greaterThan') 
+                        | Greater than
+                .form-check
+                    label.form-check-label.police
+                        input.form-check-input(name='policeEmployment' type='radio' value='none' checked) 
+                        | None
+                input#policeAmount.form-control(type='text' placeholder='Police Employment')
+    .row.top30
+        .col-lg-4
+            fieldset.form-group
+                legend Include in Results
 
+                .form-check
+                    label.form-check-label
+                        input.form-check-input.checkResults(type='checkbox' value='totalCrime')
+                        | Total Crime
+                .form-check
+                    label.form-check-label
+                        input.form-check-input.checkResults(type='checkbox' value='percentCrime')
+                        | % of Crime
+            input#submitQuery(class='click-btn btn btn-primary' type='submit' value='Submit')
+            

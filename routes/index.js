@@ -13,6 +13,9 @@ router.get('/', function(req, res, next) {
 /* POST result page. */
 router.post('/result', function(req, res, next) {
   console.log(req.body);
+  if (req.body === null) {
+    res.render('error', {message: 'Please make sure at least one State, Crime, or Ethnicity is selected'});
+  }
   var stateFilter = {'attribute': 'State', 'values': req.body['states[]']};
   var crimeFilter = {'attribute': 'Category', 'values': req.body['crimes[]']};
   db.getStateCrimeData(stateFilter, crimeFilter, function(err, results) {

@@ -2,16 +2,15 @@ $(document).ready(init)
 
 function init() {
   $('#submitQuery').click(submitQuery);
-  $('#states').val('all');
-  $('#crimes').val('all');
-  $('#ethnicities').val('all');
+  initSelect();
+  initRadio();
   $('#resultTable').tablesorter();
   $('table').each(function () {
         var $table = $(this);
 
-        var $button = $("<button type='button'>");
+        var $button = $("<button type='button' class='click-btn btn btn-primary'>");
         $button.text("Export to CSV");
-        $button.insertAfter($table);
+        $button.insertAfter($table.parent());
 
         $button.click(function () {
             var csv = $table.table2CSV({
@@ -21,6 +20,54 @@ function init() {
             + encodeURIComponent(csv);
         });
     });
+}
+
+function initSelect() {
+  $('#states').val('all');
+  $('#crimes').val('all');
+  $('#ethnicities').val('all');
+}
+
+function initRadio() {
+  $('.pop > :radio[value="none"]').prop('checked', true);
+  $('.police > :radio[value="none"]').prop('checked', true);
+  $('.totCrime > :radio[value="none"]').prop('checked', true);
+  $('#popAmount').prop('disabled', true);
+  $('#policeAmount').prop('disabled', true);
+  $('#crimeAmount').prop('disabled', true);
+  $('.pop > :radio').change(popInput);
+  $('.police > :radio').change(policeInput);
+  $('.totCrime > :radio').change(crimeInput);
+}
+
+function crimeInput() {
+  var val = $(this).val();
+  if (val === 'none'){
+    $('#crimeAmount').val('');
+    $('#crimeAmount').prop('disabled', true);
+  } else {
+    $('#crimeAmount').prop('disabled', false);
+  }
+}
+
+function policeInput() {
+  var val = $(this).val();
+  if (val === 'none'){
+    $('#policeAmount').val('');
+    $('#policeAmount').prop('disabled', true);
+  } else {
+    $('#policeAmount').prop('disabled', false);
+  }
+}
+
+function popInput() {
+  var val = $(this).val();
+  if (val === 'none'){
+    $('#popAmount').val('');
+    $('#popAmount').prop('disabled', true);
+  } else {
+    $('#popAmount').prop('disabled', false);
+  }
 }
 
 function post(path, parameters) {
@@ -56,6 +103,10 @@ var submitQuery = function(){
   var selectedStates = getSelectedStates();
   var selectedCrimes = getSelectedCrimes();
   var selectedEthnicities = getSelectedEthnicities();
+  if (selectedStates.length === 0 || selectedCrimes.length === 0 || selectedEthnicities.length === 0) {
+    alert('Please make sure to select at least one value in each criteria!');
+    return;
+  }
   body.states = selectedStates;
   body.crimes = selectedCrimes;
   body.ethnicities = selectedEthnicities;
