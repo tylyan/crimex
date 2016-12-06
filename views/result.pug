@@ -1,7 +1,10 @@
 extends layout
 
 block content
-  h2 Database Results
+  form(action='/')
+    input.back-button(class='click-btn btn btn-primary', type='submit', value='Back')
+  h2 Results
+  a#downloadJSON downloadJSON
   .scroll
     table#resultTable.tablesorter
       thead

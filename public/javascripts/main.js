@@ -1,11 +1,11 @@
 $(document).ready(init)
 
 function init() {
-  $('#submitQuery').click(submitQuery);
-  initSelect();
+  //initSelect();
   initRadio();
+  $('#submitQuery').click(submitQuery);
   $('#resultTable').tablesorter();
-  $('table').each(function () {
+  $('#resultTable').each(function () {
         var $table = $(this);
 
         var $button = $("<button type='button' class='click-btn btn btn-primary'>");
@@ -20,6 +20,25 @@ function init() {
             + encodeURIComponent(csv);
         });
     });
+  createJsonButton();
+}
+
+function createJsonButton() {
+
+  var $button = $("<button type='button' class='click-btn btn btn-primary'>");
+  $button.text("Export to JSON");
+  $button.insertAfter($('#resultTable').parent());
+
+  $button.click(function () {
+      var json = $('#resultTable').tableToJSON();
+      var out = JSON.stringify(json);
+      var dataStr = 'data:text/json;charset=UTF-8,' + encodeURIComponent(out);
+      $('#downloadJSON').attr('href', dataStr);
+      $('#downloadJSON').attr('download', 'download.json');
+      $('#downloadJSON')[0].click();
+     /* window.location.href = 'data:text/json;charset=UTF-8,' 
+      + encodeURIComponent(out);*/
+  });
 }
 
 function initSelect() {
@@ -32,9 +51,9 @@ function initRadio() {
   $('.pop > :radio[value="none"]').prop('checked', true);
   $('.police > :radio[value="none"]').prop('checked', true);
   $('.totCrime > :radio[value="none"]').prop('checked', true);
-  $('#popAmount').prop('disabled', true);
-  $('#policeAmount').prop('disabled', true);
-  $('#crimeAmount').prop('disabled', true);
+  $('#popAmount').prop('disabled', true).val('');
+  $('#policeAmount').prop('disabled', true).val('');
+  $('#crimeAmount').prop('disabled', true).val('');
   $('.pop > :radio').change(popInput);
   $('.police > :radio').change(policeInput);
   $('.totCrime > :radio').change(crimeInput);
@@ -98,19 +117,81 @@ function post(path, parameters) {
 }
 
 var submitQuery = function(){
-  var body = {};
-  console.log('Submitting query...');
-  var selectedStates = getSelectedStates();
-  var selectedCrimes = getSelectedCrimes();
-  var selectedEthnicities = getSelectedEthnicities();
-  if (selectedStates.length === 0 || selectedCrimes.length === 0 || selectedEthnicities.length === 0) {
-    alert('Please make sure to select at least one value in each criteria!');
+  if ($('#states').val().length === 0) {
+    alert('Please select at least one state.');
     return;
   }
-  body.states = selectedStates;
-  body.crimes = selectedCrimes;
-  body.ethnicities = selectedEthnicities;
+  if ($('#crimes').val().length === 0) {
+    alert('Please select at least one crime.');
+    return;
+  }
+  if ($('#ethnicities').val().length === 0) {
+    alert('Please select at least one ethnicity.');
+    return;
+  }
+  var body = {};
+  // get selects
+  body.states = getSelectedStates();
+  body.crimes = getSelectedCrimes();
+  body.ethnicities = getSelectedEthnicities();
+
+  // get filters
+  var popOption = $('input[name="populationOption"]:checked').val()
+  var crimeOption = $('input[name="totalCrimeOption"]:checked').val();
+  var policeOption = $('input[name="policeEmploymentOption"]:checked').val()
+  var value;
+  if (popOption !== 'none') {
+    body.popFilter = {};
+    body.popFilter.option = popOption;
+    var popAmount = $('#popAmount').val();
+    value = Number(popAmount);
+    if (Math.floor(value) !== value || popAmount === ''){
+      alert('Please enter an integer into population filter.');
+      return;
+    }else {
+      body.popFilter.amount = popAmount;
+    }
+  }
+  if (crimeOption !== 'none') {
+    body.totalCrimeFilter = {};
+    body.totalCrimeFilter.option = crimeOption;
+    var totalCrimeAmount = $('#crimeAmount').val();
+    value = Number(totalCrimeAmount)
+    if (Math.floor(value) !== value || totalCrimeAmount === ''){
+      alert('Please enter an integer into total crime filter.');
+      return;
+    }else {
+      body.totalCrimeFilter.amount = totalCrimeAmount
+    }
+  }
+  if (policeOption !== 'none') {
+    body.policeEmploymentFilter = {};
+    body.policeEmploymentFilter.option = policeOption;
+    var policeAmount = $('#policeAmount').val();
+    value = Number(policeAmount);
+    if (Math.floor(value) !== value || policeAmount === ''){
+      alert('Please enter an integer into police employment filter.');
+      return;
+    }else {
+      body.policeEmploymentFilter.amount = policeAmount;
+    }
+  }
+
+  // get result filters
+  body.resultFilters = buildResultFilters();
   post('result', body);
+}
+
+function buildResultFilters() {
+  var resultFilters = [];
+  resultFilters[0] = $('#populationCheck').is(':checked') ? 'Population' : '';
+  resultFilters[1] = $('#policeCheck').is(':checked') ? 'Police.T AS "Police Force",' : '';
+  resultFilters[2] = $('#totalCrimeCheck').is(':checked') ? 'Total.T AS "Total Crime Committed"' : '';
+  resultFilters[3] = $('#percentCrimeCheck').is(':checked') ? 'ROUND(Quantity/Total.T*100, 2) AS "% of Total Crime" ' : '';
+  if (resultFilters[3] !== '' && resultFilters[2] !== '') {
+    resultFilters[2] += ',';
+  }
+  return resultFilters;
 }
 
 function getSelectedStates() {

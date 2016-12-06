@@ -225,10 +225,11 @@ var crimes = [
 
 var ethnicities = [
     { "name" : "all" },
-    { "name" : "asian" },
-    { "name" : "caucasian" },
-    { "name" : "latino" },
-    { "name" : "black" }
+    { "name" : "White" },
+    { "name" : "Black" },
+    { "name" : "Indian" },
+    { "name" : "Asian" },
+    { "name" : "Islander" }
 ]
 
 exports.states = states;

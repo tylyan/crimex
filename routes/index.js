@@ -12,13 +12,19 @@ router.get('/', function(req, res, next) {
 
 /* POST result page. */
 router.post('/result', function(req, res, next) {
-  console.log(req.body);
-  if (req.body === null) {
-    res.render('error', {message: 'Please make sure at least one State, Crime, or Ethnicity is selected'});
-  }
+  //console.log(req.body);
+  var filters = {};
   var stateFilter = {'attribute': 'State', 'values': req.body['states[]']};
   var crimeFilter = {'attribute': 'Category', 'values': req.body['crimes[]']};
-  db.getStateCrimeData(stateFilter, crimeFilter, function(err, results) {
+  var ethFilter = req.body['ethnicities[]'];
+  filters.stateFilter = stateFilter;
+  filters.crimeFilter = crimeFilter;
+  filters.ethFilter = ethFilter;
+  filters.popFilter = req.body['popFilter[]'];
+  filters.totalCrimeFilter = req.body['totalCrimeFilter[]'];
+  filters.policeEmploymentFilter = req.body['policeEmploymentFilter[]'];
+  filters.resultFilter = req.body['resultFilters[]'];
+  db.getStateCrimeData(filters, function(err, results) {
     if (err) {
       console.log('error in get');
       res.render('error', {message: 'Error in getting db records' });
@@ -30,7 +36,7 @@ router.post('/result', function(req, res, next) {
       console.log("No results");
       res.render('error', {message: 'There were no results returned'});
     } else {
-      console.log(results);
+      //console.log(results);
       headers = Object.keys(results[0]);
       res.render('result', {header: headers, data: results});
     }

@@ -26,15 +26,15 @@ block content
                 legend Filter by Population
                 .form-check
                     label.form-check-label.pop
-                        input.form-check-input(name='population' type='radio' value='lessThan')
+                        input.form-check-input(name='populationOption' type='radio' value='lessThan')
                         | Less than
                 .form-check
                     label.form-check-label.pop
-                        input.form-check-input(name='population' type='radio' value='greaterThan') 
+                        input.form-check-input(name='populationOption' type='radio' value='greaterThan') 
                         | Greater than
                 .form-check
                     label.form-check-label.pop
-                        input.form-check-input(name='population' type='radio' value='none' checked) 
+                        input.form-check-input(name='populationOption' type='radio' value='none' checked) 
                         | None
                 input#popAmount.form-control(type='text' placeholder='Population')
         .col-lg-4
@@ -42,45 +42,52 @@ block content
                 legend Filter by Total Crime
                 .form-check
                     label.form-check-label.totCrime
-                        input.form-check-input(name='totalCrime' type='radio' value='lessThan')
+                        input.form-check-input(name='totalCrimeOption' type='radio' value='lessThan')
                         | Less than
                 .form-check
                     label.form-check-label.totCrime
-                        input.form-check-input(name='totalCrime' type='radio' value='greaterThan') 
+                        input.form-check-input(name='totalCrimeOption' type='radio' value='greaterThan') 
                         | Greater than
                 .form-check
                     label.form-check-label.totCrime
-                        input.form-check-input(name='totalCrime' type='radio' value='none' checked) 
+                        input.form-check-input(name='totalCrimeOption' type='radio' value='none' checked) 
                         | None
                 input#crimeAmount.form-control(type='text' placeholder='Total Crime')
         .col-lg-4
             fieldset.form-group
-                legend Filter by Police Employment
+                legend Filter by Police Force
                 .form-check
                     label.form-check-label.police
-                        input.form-check-input(name='policeEmployment' type='radio' value='lessThan')
+                        input.form-check-input(name='policeEmploymentOption' type='radio' value='lessThan')
                         | Less than
                 .form-check
                     label.form-check-label.police
-                        input.form-check-input(name='policeEmployment' type='radio' value='greaterThan') 
+                        input.form-check-input(name='policeEmploymentOption' type='radio' value='greaterThan') 
                         | Greater than
                 .form-check
                     label.form-check-label.police
-                        input.form-check-input(name='policeEmployment' type='radio' value='none' checked) 
+                        input.form-check-input(name='policeEmploymentOption' type='radio' value='none' checked) 
                         | None
-                input#policeAmount.form-control(type='text' placeholder='Police Employment')
+                input#policeAmount.form-control(type='text' placeholder='Police Force')
     .row.top30
         .col-lg-4
             fieldset.form-group
                 legend Include in Results
-
                 .form-check
                     label.form-check-label
-                        input.form-check-input.checkResults(type='checkbox' value='totalCrime')
+                        input#populationCheck.form-check-input.checkResults(type='checkbox' value='totalPopulation' checked)
+                        | Total Population
+                .form-check
+                    label.form-check-label
+                        input#policeCheck.form-check-input.checkResults(type='checkbox' value='policeForce' checked)
+                        | Police Force
+                .form-check
+                    label.form-check-label
+                        input#totalCrimeCheck.form-check-input.checkResults(type='checkbox' value='totalCrime' checked)
                         | Total Crime
                 .form-check
                     label.form-check-label
-                        input.form-check-input.checkResults(type='checkbox' value='percentCrime')
-                        | % of Crime
+                        input#percentCrimeCheck.form-check-input.checkResults(type='checkbox' value='percentCrime' checked)
+                        | % of Total Crime
             input#submitQuery(class='click-btn btn btn-primary' type='submit' value='Submit')
             
