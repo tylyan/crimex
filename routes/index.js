@@ -3,8 +3,9 @@ var router = express.Router();
 var stateList = require('../data/data').states;
 var crimeList = require('../data/data').crimes;
 var ethnicityList = require('../data/data').ethnicities;
+var coord = require('../data/coord').coord;
 var db = require('../data/database');
-
+//var globeData;
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { states: stateList, crimes: crimeList, ethnicities: ethnicityList });
@@ -17,6 +18,8 @@ router.post('/result', function(req, res, next) {
   var stateFilter = {'attribute': 'State', 'values': req.body['states[]']};
   var crimeFilter = {'attribute': 'Category', 'values': req.body['crimes[]']};
   var ethFilter = req.body['ethnicities[]'];
+  console.log(req.body['crimes[]']);
+  console.log(req.body['states[]']);
   filters.stateFilter = stateFilter;
   filters.crimeFilter = crimeFilter;
   filters.ethFilter = ethFilter;
@@ -37,11 +40,17 @@ router.post('/result', function(req, res, next) {
       res.render('error', {message: 'There were no results returned'});
     } else {
       //console.log(results);
+      //globeData = createGlobeData(req.body, results);
       headers = Object.keys(results[0]);
       res.render('result', {header: headers, data: results});
     }
   });
   //res.render('result', { title: req.body.state });
+});
+
+router.get('/visual', function(req, res, next) {
+  console.log(globeData);
+  res.render('visual', globeData);
 });
 
 router.get('/about', function(req, res, next) {
@@ -73,5 +82,32 @@ router.get('/dbtest', function(req, res, next) {
     res.render('status', {title: status.message});
   })
 })
+
+
+// function createGlobeData(body, results) {
+//   var data = [];
+//   var crimes = body['crimes[]'];
+//   var states = body['states[]'];
+//   console.log(coord);
+//   for (var i = 0; i < crimes.length; i++ ) {
+//     data[i] = [crimes[i]];
+//     data[i][1] = [];
+//     states.forEach(function(state) {
+//       coord.forEach(function(obj) {
+//         if (obj.state === state) {
+//           data[i][1].push(obj.latitude);
+//           data[i][1].push(obj.longitude);
+//         }
+//       });
+//       results.forEach(function(tuple) {
+//         if (tuple.State === state && tuple.Category === crimes[i]) {
+//           data[i][1].push(tuple.Quantity);
+//         }
+//       })
+//     });
+//   }
+//   console.log(data);
+//   return data;
+// }
 
 module.exports = router;

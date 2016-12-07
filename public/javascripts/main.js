@@ -4,6 +4,7 @@ function init() {
   //initSelect();
   initRadio();
   $('#submitQuery').click(submitQuery);
+  $('#visualButton').click(visualizeData);
   $('#resultTable').tablesorter();
   $('#resultTable').each(function () {
         var $table = $(this);
@@ -116,6 +117,11 @@ function post(path, parameters) {
   form.submit();
 }
 
+var visualizeData = function() {
+  var globeData = $('#globeData').val();
+  console.log(globeData);
+}
+
 var submitQuery = function(){
   if ($('#states').val().length === 0) {
     alert('Please select at least one state.');
@@ -184,7 +190,7 @@ var submitQuery = function(){
 
 function buildResultFilters() {
   var resultFilters = [];
-  resultFilters[0] = $('#populationCheck').is(':checked') ? 'Population' : '';
+  resultFilters[0] = $('#populationCheck').is(':checked') ? 'Population,' : '';
   resultFilters[1] = $('#policeCheck').is(':checked') ? 'Police.T AS "Police Force",' : '';
   resultFilters[2] = $('#totalCrimeCheck').is(':checked') ? 'Total.T AS "Total Crime Committed"' : '';
   resultFilters[3] = $('#percentCrimeCheck').is(':checked') ? 'ROUND(Quantity/Total.T*100, 2) AS "% of Total Crime" ' : '';

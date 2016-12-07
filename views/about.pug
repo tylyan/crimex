@@ -2,4 +2,19 @@ extends layout
 
 block content
   h2 About CrimeX
-  p CrimeX is a boss web application. (Write more)
+  p CrimeX is a web application written by Tommy Yan and Carlos Dominguez.
+  p CrimeX is a crime explorer tool that allows users to discover trends amongst crime in different states. Users can also compare crime trends with police employment and overall state population/ethnicity. Feel free to explore the source code #[a(href='https://github.com/tylyan/crimex') here].
+
+  h2 Our Data
+  p All data was taken from the 2014 versions of their sources. 
+
+  h3 Police Force
+  p The reason for the numbers in our police presence data is because those numbers were reported by the individual state agencies, with not all individual state agencies electing to report to the survey.
+
+  h3 Crime Categories
+  p There are two 'rape' categories because of the two definitions of rape that were recorded--the legacy definition of rape was "The carnal knowledge of a female forcibly and against her will.", and in our crime table is the column Rape1. The new definition of rape is "Penetration, no matter how slight, of the vagina or anus with any body part or object, or oral penetration by a sex organ of another person, without the consent of the victim.", and is in our crime table as Rape2.
+
+  p Source: #[a(href='https://ucr.fbi.gov/recent-program-updates/new-rape-definition-frequently-asked-questions') href='https://ucr.fbi.gov/recent-program-updates/new-rape-definition-frequently-asked-questions]
+
+  h3 Ethnic Demographics
+  p Our state race data does not have an entry that shows Hispanic population; however, it is because those who are of the Hispanic ethnicity are included in the racial populations shown. 

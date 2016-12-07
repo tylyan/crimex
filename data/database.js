@@ -48,7 +48,7 @@ exports.getStateData = function(states, callback) {
 }
 
 exports.getStateCrimeData = function(filters, callback) {
-  console.log(filters);
+  //console.log(filters);
   var stateQuery = buildQueryString(filters.stateFilter, 'OR');
   var crimeQuery = buildQueryString(filters.crimeFilter, 'OR');
   var selectEth = buildEthFilter(filters.ethFilter);
@@ -63,10 +63,10 @@ exports.getStateCrimeData = function(filters, callback) {
   }
 
   //var selectQuery = 'State,' + selectEth + 'Police.T AS "Police Force", Category, Quantity, Total.T AS "Total Crime Committed", ROUND(Quantity/Total.T*100, 2) AS "% of Total Crime" ';
-  var selectQuery = 'State, ' + selectEth + resultFilters[1] + ' Category, ' + quantity + resultFilters[2] + resultFilters[3];
+  var selectQuery = 'State, ' + selectEth + resultFilters[0] + resultFilters[1] + 'Category, ' + quantity + resultFilters[2] + resultFilters[3];
   var totalCrimeQuery = '(SELECT State AS TotState, SUM(Quantity) AS "T" FROM State_crimes GROUP BY State) Total';
   var policeForceQuery = '(SELECT State AS PolState, SUM(Count) AS "T" FROM Employs GROUP BY State) Police';
-  var ethnicityQuery = '(SELECT State AS EthState, White, Black, Indian, Asian, Islander FROM State_ethnicities) Ethnicity';
+  var ethnicityQuery = '(SELECT State AS EthState, White, Black, Indian, Asian, Islander, Total AS Population FROM State_ethnicities) Ethnicity';
   var sql = 'SELECT ' + selectQuery +
   'FROM State_crimes,' + totalCrimeQuery + ', ' + policeForceQuery + ', ' + ethnicityQuery + ' WHERE TotState=State AND PolState=State AND EthState=State AND' + stateQuery + ' AND ' + crimeQuery;
   // var sql = 'SELECT State, White, Black, Indian, Asian, Islander, Police.T AS "Police Force", Category, Quantity, Total.T AS "Total Crime Committed", ROUND(Quantity/Total.T*100, 2) AS "% of Total Crime" ' +
@@ -115,14 +115,14 @@ function buildFilterQuery(filterArray) {
       console.log(filter);
     }
   })
-  console.log(filterQuery);
+  //console.log(filterQuery);
   return filterQuery;
 }
 /**
 * Runs the given sql query against the database.
 */
 function runQuery(sql, callback) {
-  console.log(sql);
+  //console.log(sql);
   pool.getConnection(function(err, connection) {
     if (err) {
       console.log(err);
